@@ -115,25 +115,50 @@ elif args.mode == 'demo':
             # print('Please input your sentence:')
             # demo_sent = input() 
         with open('data.txt','r') as fp:
-            all_lines = fp.readline()
+            all_lines = fp.readlines()
         demo_sent=all_lines
-        # seg_list=[t for t in jieba.cut(demo_sent,cut_all=False) if t not in stops]
-        if demo_sent == '' or demo_sent.isspace():
+        # seg_list=[t for t in jieba.cut(demo_sent,cut_all=False) if t not in stops]\
+        PERList = []
+        LOCList = []
+        PERArray = []
+        LOCArray = []
+        if demo_sent == '':
                 print('See you next time!')
                 # break
         else:
-            demo_sent = list(demo_sent.strip())
-            demo_data = [(demo_sent, ['O'] * len(demo_sent))]
-            tag = model.demo_one(sess, demo_data)
-            PER, LOC, ORG = get_entity(tag, demo_sent)
-            ipdb.set_trace()
-            # TODO 
-            # Save PER,LOC,ORG to dataframe to csv
-            # dict={}
-            # occurrences=dict
-            print('PER: {}\nLOC: {}\nORG: {}'.format(PER, LOC, ORG))
-            co_occur = pd.DataFrame.from_dict(occurrences)
-            co_occur.to_csv('co-occurancy_matrix.csv')
+            for demo in demo_sent:
+                demo_sent = list(demo.strip())
+                demo_data = [(demo_sent, ['O'] * len(demo_sent))]
+                tag = model.demo_one(sess, demo_data)
+                PER, LOC, ORG = get_entity(tag, demo_sent)
+                PERList += PER
+                LOCList += LOC
+                PERArray += [PER]
+                LOCArray += [LOC]
+                # ipdb.set_trace()
+                # TODO 
+                # Save PER,LOC,ORG to dataframe to csv
+                # dict={}
+                # occurrences=dict
+                # print('PER: {}\nLOC: {}\nORG: {}'.format(PER, LOC, ORG))
+                # co_occur = pd.DataFrame.from_dict(occurrences)
+                # co_occur.to_csv('co-occurancy_matrix.csv')
+        PERList = list(set(PERList))
+        LOCList = list(set(LOCList))
+        # print('PERList', PERList)
+        # print('LOCList', LOCList)
+        # dictionary = dict(zip(LOCList, PERList))
+        # print('dictionary',dictionary)
+        occurrences = np.zeros((len(LOCList),len(PERList)))
+        for i in range(0,len(LOCArray)):
+            for j in range(0, len(LOCArray[i])):
+                for k in range(0, len(PERArray[i])):
+                    occurrences[LOCList.index(LOCArray[i][j])][PERList.index(PERArray[i][k])] += 1
+        print('occurrences',occurrences)
+        co_occur = pd.DataFrame.from_dict(occurrences)
+        co_occur.to_csv('co-occurancy_matrix.csv')
+        print('PERArray', PERArray)
+        print('LOCArray', LOCArray)
 
            
         
