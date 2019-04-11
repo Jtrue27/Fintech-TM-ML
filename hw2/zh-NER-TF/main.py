@@ -156,9 +156,13 @@ elif args.mode == 'demo':
                     occurrences[LOCList.index(LOCArray[i][j])][PERList.index(PERArray[i][k])] += 1
         print('occurrences',occurrences)
         co_occur = pd.DataFrame.from_dict(occurrences)
+        co_occur.columns=PERList
+        co_occur.index=LOCList
         co_occur.to_csv('co-occurancy_matrix.csv')
-        print('PERArray', PERArray)
-        print('LOCArray', LOCArray)
+        print(len(PERList))
+        # print('PERArray', PERList)
+        # print(len(LOCList))
+        # print('LOCArray', LOCList)
 
            
         
