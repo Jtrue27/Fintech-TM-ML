@@ -16,6 +16,8 @@
 </template>
 
 <script>
+    import { addMonths, getYear, getMonth } from 'date-fns';
+
     export default {
         name: "lineChart",
         data: function () {
@@ -101,9 +103,11 @@
                     for(let name of this.chinaFundNameList) {
                         columns.push(name);
                     }
+                    let date = new Date(2016, 3);
                     for(let i = 0; i <= 35; i++) {
+                        date = addMonths(date, 1);
                         let fundObject = {
-                            '日期': i
+                            '日期': getYear(date).toString()+'/'+getMonth(date).toString()
                         };
                         for(let index in this.chinaFundNameList) {
                             fundObject[this.chinaFundNameList[index]] = this.chinaFundValueList[index][i]

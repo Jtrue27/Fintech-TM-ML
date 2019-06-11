@@ -149,7 +149,6 @@
                 } else {
                     index = (parseInt(this.selectYear) - 2017) * 12 + 8 + parseInt(this.selectMonth);
                 }
-                console.log(index);
                 this.chartData = {
                     columns: ['name', 'value'],
                     rows: []
@@ -174,7 +173,6 @@
                     value: this.russiaData[index]
                 };
                 this.chartData.rows.push(data);
-                console.log(this.chartData);
             }
         }
     }
