@@ -7,14 +7,19 @@
                 </template>
                 <router-link :to="{name:'lineChart'}">
                     <el-menu-item index="1-1">
-                        投資比例
+                        購買人數
                     </el-menu-item>
                 </router-link>
                 <router-link :to="{name:'pieChart'}">
                     <el-menu-item index="1-2">
-                        購買人數
+                        投資比例
+                    </el-menu-item>
+                <router-link :to="{name:'countryLineChart'}">
+                    <el-menu-item index="1-3">
+                        基金價格與各項指標
                     </el-menu-item>
                 </router-link>
+            </router-link>
             </el-submenu>
             <router-link to='/'>
                 <el-menu-item index="6">

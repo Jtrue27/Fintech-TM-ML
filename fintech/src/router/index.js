@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import home from '@/components/home';
 import lineChart from '@/components/lineChart';
 import pieChart from '@/components/pieChart';
+import countryLineChart from "@/components/countryLineChart";
 
 Vue.use(Router);
 
@@ -21,6 +22,10 @@ export default new Router({
             path: '/pieChart',
             name: 'pieChart',
             component: pieChart,
+        },{
+            path: 'countryLineChart',
+            name: 'countryLineChart',
+            component: countryLineChart
         }]
     }]
 })
