@@ -20,6 +20,43 @@
         </div>
         基金價格與各項指標
         <ve-line :data="chartData" :extand="extend"></ve-line>
+        各項指標相關係數
+        <el-table
+                :data="tableData"
+                style="width: 100%"
+                height="auto">
+            <el-table-column
+                    fixed
+                    prop="fundName"
+                    label="基金名稱"
+                    width="auto">
+            </el-table-column>
+            <el-table-column
+                    prop="fundValuePeople"
+                    label="基金價格與定期定額投資人數"
+                    width="auto">
+            </el-table-column>
+            <el-table-column
+                    prop="newsPeople"
+                    label="新聞事件與定期定額投資人數"
+                    width="auto">
+            </el-table-column>
+            <el-table-column
+                    prop="newsFundValue"
+                    label="新聞事件與基金價格"
+                    width="auto">
+            </el-table-column>
+            <el-table-column
+                    prop="newsLeadFundValue"
+                    label="新聞事件一個月後與基金價格"
+                    width="auto">
+            </el-table-column>
+            <el-table-column
+                    prop="newsLeadPeople"
+                    label="新聞事件一個月後與定期定額扣款人數"
+                    width="auto">
+            </el-table-column>
+        </el-table>
     </div>
 </template>
 
@@ -56,30 +93,51 @@
                 chinaIndexValueList: [],
                 chinaPeopleValueList: [],
                 chinaEmoValueList: [],
+                chinaFundValuePeopleList: [],
+                chinaNewsPeopleList: [],
+                chinaNewsFundValueList: [],
+                chinaNewsLeadFundValueList: [],
+                chinaNewsLeadPeopleList: [],
                 russiaFundNameList: [],
                 russiaFundValueList: [],
                 russiaIndexNameList: [],
                 russiaIndexValueList: [],
                 russiaEmoValueList: [],
                 russiaPeopleValueList: [],
+                russiaFundValuePeopleList: [],
+                russiaNewsPeopleList: [],
+                russiaNewsFundValueList: [],
+                russiaNewsLeadFundValueList: [],
+                russiaNewsLeadPeopleList: [],
                 indiaFundNameList: [],
                 indiaFundValueList: [],
                 indiaIndexNameList: [],
                 indiaIndexValueList: [],
                 indiaEmoValueList: [],
                 indiaPeopleValueList: [],
+                indiaFundValuePeopleList: [],
+                indiaNewsPeopleList: [],
+                indiaNewsFundValueList: [],
+                indiaNewsLeadFundValueList: [],
+                indiaNewsLeadPeopleList: [],
                 brazilFundNameList: [],
                 brazilFundValueList: [],
                 brazilIndexNameList: [],
                 brazilIndexValueList: [],
                 brazilEmoValueList: [],
                 brazilPeopleValueList: [],
+                brazilFundValuePeopleList: [],
+                brazilNewsPeopleList: [],
+                brazilNewsFundValueList: [],
+                brazilNewsLeadFundValueList: [],
+                brazilNewsLeadPeopleList: [],
                 extend: {
                     legend: {
                         bottom: 0,
                         type: 'scroll'
                     }
-                }
+                },
+                tableData: []
             }
         },
         mounted() {
@@ -113,6 +171,26 @@
                 }
                 this.chinaPeopleValueList.push(peopleValueTempList);
             }
+            json = require('../assets/json/china_corr.json');
+            for(let index in this.chinaFundNameList) {
+                for(let key in json) {
+                    if(this.chinaFundNameList[index] === key) {
+                        for(let temp in json[key]){
+                            if(temp === 'money_people') {
+                                this.chinaFundValuePeopleList.push(json[key][temp]);
+                            } else if(temp === 'news_people') {
+                                this.chinaNewsPeopleList.push(json[key][temp]);
+                            } else if(temp === 'news_money') {
+                                this.chinaNewsFundValueList.push(json[key][temp]);
+                            } else if(temp === 'news_lead_money') {
+                                this.chinaNewsLeadFundValueList.push(json[key][temp]);
+                            } else if(temp === 'news_lead_people') {
+                                this.chinaNewsLeadPeopleList.push(json[key][temp]);
+                            }
+                        }
+                    }
+                }
+            }
             json = require('../assets/json/russia_percentage.json');
             for(let name in json) {
                 this.russiaFundNameList.push(name);
@@ -142,6 +220,26 @@
                     peopleValueTempList.push(json[name][people]);
                 }
                 this.russiaPeopleValueList.push(peopleValueTempList);
+            }
+            json = require('../assets/json/russia_corr.json');
+            for(let index in this.russiaFundNameList) {
+                for(let key in json) {
+                    if(this.russiaFundNameList[index] === key) {
+                        for(let temp in json[key]){
+                            if(temp === 'money_people') {
+                                this.russiaFundValuePeopleList.push(json[key][temp]);
+                            } else if(temp === 'news_people') {
+                                this.russiaNewsPeopleList.push(json[key][temp]);
+                            } else if(temp === 'news_money') {
+                                this.russiaNewsFundValueList.push(json[key][temp]);
+                            } else if(temp === 'news_lead_money') {
+                                this.russiaNewsLeadFundValueList.push(json[key][temp]);
+                            } else if(temp === 'news_lead_people') {
+                                this.russiaNewsLeadPeopleList.push(json[key][temp]);
+                            }
+                        }
+                    }
+                }
             }
             json = require('../assets/json/india_percentage.json');
             for(let name in json) {
@@ -173,6 +271,26 @@
                 }
                 this.indiaPeopleValueList.push(peopleValueTempList);
             }
+            json = require('../assets/json/india_corr.json');
+            for(let index in this.indiaFundNameList) {
+                for(let key in json) {
+                    if(this.indiaFundNameList[index] === key) {
+                        for(let temp in json[key]){
+                            if(temp === 'money_people') {
+                                this.indiaFundValuePeopleList.push(json[key][temp]);
+                            } else if(temp === 'news_people') {
+                                this.indiaNewsPeopleList.push(json[key][temp]);
+                            } else if(temp === 'news_money') {
+                                this.indiaNewsFundValueList.push(json[key][temp]);
+                            } else if(temp === 'news_lead_money') {
+                                this.indiaNewsLeadFundValueList.push(json[key][temp]);
+                            } else if(temp === 'news_lead_people') {
+                                this.indiaNewsLeadPeopleList.push(json[key][temp]);
+                            }
+                        }
+                    }
+                }
+            }
             json = require('../assets/json/brazil_percentage.json');
             for(let name in json) {
                 this.brazilFundNameList.push(name);
@@ -202,6 +320,26 @@
                     peopleValueTempList.push(json[name][people]);
                 }
                 this.brazilPeopleValueList.push(peopleValueTempList);
+            }
+            json = require('../assets/json/brazil_corr.json');
+            for(let index in this.brazilFundNameList) {
+                for(let key in json) {
+                    if(this.brazilFundNameList[index] === key) {
+                        for(let temp in json[key]){
+                            if(temp === 'money_people') {
+                                this.brazilFundValuePeopleList.push(json[key][temp]);
+                            } else if(temp === 'news_people') {
+                                this.brazilNewsPeopleList.push(json[key][temp]);
+                            } else if(temp === 'news_money') {
+                                this.brazilNewsFundValueList.push(json[key][temp]);
+                            } else if(temp === 'news_lead_money') {
+                                this.brazilNewsLeadFundValueList.push(json[key][temp]);
+                            } else if(temp === 'news_lead_people') {
+                                this.brazilNewsLeadPeopleList.push(json[key][temp]);
+                            }
+                        }
+                    }
+                }
             }
             this.changeCountry();
         },
@@ -242,6 +380,7 @@
             changeFund() {
                 this.chartData.columns = ['日期'];
                 this.chartData.rows = [];
+                this.tableData = [];
                 if(this.selectCountry === 'china') {
                     for(let name of this.chinaIndexNameList)
                         this.chartData.columns.push(name);
@@ -263,6 +402,14 @@
                         // console.log(row);
                         this.chartData.rows.push(row);
                     }
+                    let tableDataObject = {};
+                    tableDataObject.fundName = this.chinaFundNameList[parseInt(this.selectFund)];
+                    tableDataObject.fundValuePeople = this.chinaFundValuePeopleList[parseInt(this.selectFund)];
+                    tableDataObject.newsFundValue = this.chinaNewsFundValueList[parseInt(this.selectFund)];
+                    tableDataObject.newsPeople = this.chinaNewsPeopleList[parseInt(this.selectFund)];
+                    tableDataObject.newsLeadFundValue = this.chinaNewsLeadFundValueList[parseInt(this.selectFund)];
+                    tableDataObject.newsLeadPeople = this.chinaNewsLeadPeopleList[parseInt(this.selectFund)];
+                    this.tableData.push(tableDataObject);
                 } else if(this.selectCountry === 'russia') {
                     for(let name of this.russiaIndexNameList)
                         this.chartData.columns.push(name);
@@ -283,6 +430,14 @@
                         row['定期定額扣款人數'] = this.russiaPeopleValueList[parseInt(this.selectFund)][index];
                         this.chartData.rows.push(row);
                     }
+                    let tableDataObject = {};
+                    tableDataObject.fundName = this.russiaFundNameList[parseInt(this.selectFund)];
+                    tableDataObject.fundValuePeople = this.russiaFundValuePeopleList[parseInt(this.selectFund)];
+                    tableDataObject.newsFundValue = this.russiaNewsFundValueList[parseInt(this.selectFund)];
+                    tableDataObject.newsPeople = this.russiaNewsPeopleList[parseInt(this.selectFund)];
+                    tableDataObject.newsLeadFundValue = this.russiaNewsLeadFundValueList[parseInt(this.selectFund)];
+                    tableDataObject.newsLeadPeople = this.russiaNewsLeadPeopleList[parseInt(this.selectFund)];
+                    this.tableData.push(tableDataObject);
                 } else if(this.selectCountry === 'india') {
                     for(let name of this.indiaIndexNameList)
                         this.chartData.columns.push(name);
@@ -304,6 +459,14 @@
                         // console.log(row);
                         this.chartData.rows.push(row);
                     }
+                    let tableDataObject = {};
+                    tableDataObject.fundName = this.indiaFundNameList[parseInt(this.selectFund)];
+                    tableDataObject.fundValuePeople = this.indiaFundValuePeopleList[parseInt(this.selectFund)];
+                    tableDataObject.newsFundValue = this.indiaNewsFundValueList[parseInt(this.selectFund)];
+                    tableDataObject.newsPeople = this.indiaNewsPeopleList[parseInt(this.selectFund)];
+                    tableDataObject.newsLeadFundValue = this.indiaNewsLeadFundValueList[parseInt(this.selectFund)];
+                    tableDataObject.newsLeadPeople = this.indiaNewsLeadPeopleList[parseInt(this.selectFund)];
+                    this.tableData.push(tableDataObject);
                 } else if(this.selectCountry === 'brazil') {
                     for(let name of this.brazilIndexNameList)
                         this.chartData.columns.push(name);
@@ -325,6 +488,14 @@
                         // console.log(row);
                         this.chartData.rows.push(row);
                     }
+                    let tableDataObject = {};
+                    tableDataObject.fundName = this.brazilFundNameList[parseInt(this.selectFund)];
+                    tableDataObject.fundValuePeople = this.brazilFundValuePeopleList[parseInt(this.selectFund)];
+                    tableDataObject.newsFundValue = this.brazilNewsFundValueList[parseInt(this.selectFund)];
+                    tableDataObject.newsPeople = this.brazilNewsPeopleList[parseInt(this.selectFund)];
+                    tableDataObject.newsLeadFundValue = this.brazilNewsLeadFundValueList[parseInt(this.selectFund)];
+                    tableDataObject.newsLeadPeople = this.brazilNewsLeadPeopleList[parseInt(this.selectFund)];
+                    this.tableData.push(tableDataObject);
                 }
             }
         }
